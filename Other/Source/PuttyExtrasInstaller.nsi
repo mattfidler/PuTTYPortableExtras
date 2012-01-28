@@ -13,6 +13,7 @@ AutoCloseWindow true
 Var pa
 
 ; MUI2
+!define VER "0.62"
 !define mirror $PLUGINSDIR\mirrors.ini
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
@@ -20,7 +21,7 @@ Var pa
 Name "PuttyPortable Extras"
 BrandingText "PuttyPortable Extras"
 
-OutFile "..\..\..\PuttyPortableExtrasInstaller.exe"
+OutFile "..\..\PuttyPortableExtrasInstaller-${VER}.exe"
 
 !define MUI_HEADERIMAGE
 
@@ -30,7 +31,6 @@ OutFile "..\..\..\PuttyPortableExtrasInstaller.exe"
 !define MUI_PAGE_HEADER_SUBTEXT "PuTTY Portable Extras"
 
 !define MUI_COMPONENTSPAGE_SMALLDESC
-!define MUI_HEADERIMAGE_RIGHT
 
 ;Installer pages
 
