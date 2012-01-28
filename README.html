@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>PuTTYPortable Extensions Needed for Emacs</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="title" content="PuTTYPortable Extensions Needed for Emacs"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2012-01-28 15:21:32 Central Standard Time"/>
+<meta name="author" content="Matthew L. Fidler"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">PuTTYPortable Extensions Needed for Emacs</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Introduction</a></li>
+<li><a href="#sec-2">2 Emacs Needs</a></li>
+<li><a href="#sec-3">3 How this works</a></li>
+<li><a href="#sec-4">4 Additional Programs</a></li>
+<li><a href="#sec-5">5 Wish list</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+
+<p>I created this package to use PuTTY portable with emacs.  That way I
+can use TRAMP and git easier.  However this may be useful for many
+other people who use PuTTY.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Emacs Needs</h2>
+<div class="outline-text-2" id="text-2">
+
+<p>To use TRAMP, Emacs may need the almost the complete putty package, or
+</p><ul>
+<li>pscp?
+</li>
+<li>psftp?
+</li>
+<li>plink
+</li>
+<li>Pageant
+</li>
+<li>PuTTYgen
+</li>
+</ul>
+
+<p>These are included here and upxed.  I have also changed PuTTy to Putty
+tray and upxed it as well.  I have made <a href="http://code.google.com/p/putty-portable-extras/downloads/detail?name=PuttyPortableExtrasInstaller-0.62-1.exe&amp;can=2&amp;q=">an installer</a>.
+</p></div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> How this works</h2>
+<div class="outline-text-2" id="text-3">
+
+<p>This renames the original putty executable and gives a fake putty
+executable that chooses to run Putty, pageant or both.
+</p>
+<p>
+This executable by default loads keys in the following directories:
+</p>
+<ul>
+<li><code>Data/keys</code>: This allows PuTTYPortable to carry around all its keys
+  like a portable app <i>should</i>..
+</li>
+<li><code>USB:/Documents/keys</code>: While outside of the portable app, you may
+  wish to keep your keys in your <code>Documents</code> directory
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Additional Programs</h2>
+<div class="outline-text-2" id="text-4">
+
+<dl>
+<dt>PageantPortable.exe</dt><dd>Starts Pageant after loading the Portable
+     Settings. The Default keys will be loaded as well.  However, you
+     can specify additional keys by <code>PageantPortable.exe newkey</code>.
+     Note that if it is already in the list of keys, it will only load
+     once.
+</dd>
+<dt>PageantPuTTYPortable.exe</dt><dd>Starts Pageant like above.  After
+     Pageant has started, PuTTY then starts.  If pageant is already
+     running, just start PuTTY.
+</dd>
+<dt>puttygen.exe</dt><dd>Putty gen generation and import/export.  Its
+                  portable, so it isn't run through the default
+                  registry relocation process.
+</dd>
+<dt>App/putty/putty.exe</dt><dd>Fake putty that runs Pageant, Putty or both.
+     The real putty is renamed to <code>App/putty/putty-real.exe</code>
+</dd>
+<dt>App/putty/plink.exe</dt><dd>Putty's answer to <code>ssh</code>.  If Pageant is
+     running, it uses all the registry settings from
+     EmacsPortable.App.
+</dd>
+<dt>App/putty/pscp.exe</dt><dd>Putty's secure copy.  I  have included
+     <code>scp.bat</code> to call <code>pscp.exe</code> for those who would rather use the
+     "default" command.
+</dd>
+<dt>/App/putty/sftp.exe</dt><dd>Putty's secure ftp.  I have included
+     <code>sftp.bat</code> to call <code>psftp.exe</code> for those who would rather use the
+     "default" command.
+</dd>
+</dl>
+
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Wish list</h2>
+<div class="outline-text-2" id="text-5">
+
+<p>I would have liked to do the following, but what I currently have
+works for me:
+</p>
+<ul>
+<li>Allow customizable directories for keys
+</li>
+<li>Have a GUI that allows you to add/remove the key directories. 
+</li>
+</ul>
+
+
+
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2012-01-28 15:21:32 Central Standard Time</p>
+<p class="author">Author: Matthew L. Fidler</p>
+<p class="creator">Org version 7.8.03 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>

@@ -13,7 +13,7 @@ AutoCloseWindow true
 Var pa
 
 ; MUI2
-!define VER "0.62"
+!define VER "0.62-1"
 !define mirror $PLUGINSDIR\mirrors.ini
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
@@ -45,11 +45,22 @@ OutFile "..\..\PuttyPortableExtrasInstaller-${VER}.exe"
 !insertmacro MUI_LANGUAGE "English"
 
 
-Section "Replace PuTTY with PuTTY tray" sec_replace_putty_with_putty_tray ; 
+Section "Required Executable" sec_required_executable ; Checked
+  ; Description:
+  ; This Required executable allows Putty and Pageant to run with the same launcher by replacing putty.exe by a NSIS launcher.
+  SetOutPath "$INSTDIR\App\putty"
+  IfFileExists "$INSTDIR\App\putty\putty-real.exe" +2
+  Rename "$INSTDIR\App\putty\PUTTY.exe" "$INSTDIR\App\putty\putty-real.exe"
+  File "..\..\App\putty\putty.exe"
+  SetOutPath "$INSTDIR"
+  File "..\..\README.html"
+SectionEnd ; sec_required_executable
+
+Section "Use PuTTY tray" sec_replace_putty_with_putty_tray ; 
   ; Description:
   ; Replace PuTTY with PuTTY tray
   SetOutPath "$INSTDIR\App\putty"
-  File "..\..\App\putty\putty.exe"
+  File "..\..\App\putty\putty-tray.exe"
 SectionEnd ; sec_replace_putty_with_putty_tray
 
 
@@ -60,6 +71,7 @@ Section "Pageant Portable" sec_pageant_portable ; Checked
   File "..\..\App\putty\pageant.exe"
   SetOutPath "$INSTDIR"
   File "..\..\PageantPortable.exe"
+  File "..\..\PageantPuTTYPortable.exe"
 SectionEnd ; sec_pageant_portable
 
 Section "Plink" sec_plink ; Checked
@@ -96,12 +108,12 @@ Section /o "Sources" sec_sources ; Unchecked (/o)
   ; Description:
   ; Sources
   SetOutPath "$INSTDIR\Other\Source"
-  File "PuttyExtrasInstaller.nsi"
-  File "PageantPortable.nsi"
+  File "*.nsi"
 SectionEnd ; sec_sources
 ;--------------------------------
 ;Description(s)
 LangString DESC_sec_replace_putty_with_putty_tray ${LANG_ENGLISH} "Replace PuTTY with PuTTY tray"
+LangString DESC_sec_required_executable ${LANG_ENGLISH} "This Required executable allows Putty and Pageant to run with the same launcher by replacing putty.exe by a NSIS launcher."
 LangString DESC_sec_sources ${LANG_ENGLISH} "Sources"
 LangString DESC_sec_puttygen ${LANG_ENGLISH} "Puttygen -- its already portable.  A compressed verion is placed in the portableapps root directory"
 LangString DESC_sec_psftp ${LANG_ENGLISH} "Putty Sftp"
@@ -109,6 +121,7 @@ LangString DESC_sec_pscp ${LANG_ENGLISH} "Putty Secure Copy"
 LangString DESC_sec_plink ${LANG_ENGLISH} "Plink -- Should be run after either PuTTY Portable is run OR Pageant Portable is run."
 LangString DESC_sec_pageant_portable ${LANG_ENGLISH} "Portable Pageant -- Will relocate PuTTY portable settings before running"
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+  !insertmacro MUI_DESCRIPTION_TEXT ${sec_required_executable} $(DESC_sec_required_executable)
   !insertmacro MUI_DESCRIPTION_TEXT ${sec_sources} $(DESC_sec_sources)
   !insertmacro MUI_DESCRIPTION_TEXT ${sec_puttygen} $(DESC_sec_puttygen)
   !insertmacro MUI_DESCRIPTION_TEXT ${sec_psftp} $(DESC_sec_psftp)
@@ -133,6 +146,7 @@ Function GetDriveVars
 FunctionEnd
 
 Function .onInit
+  SectionSetFlags ${sec_required_executable} 17
   ${GetDrives} "FDD+HDD" "GetDriveVars"
   IfFileExists "$PA\PuTTYPortable" +3 0
   MessageBox MB_OK "The installer could not find PuTTY Portable! Pleas install PuTTY Portable First."

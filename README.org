@@ -1,12 +1,57 @@
 #+TITLE: PuTTYPortable Extensions Needed for Emacs
 #+AUTHOR: Matthew L. Fidler
+* Introduction
+I created this package to use PuTTY portable with emacs.  That way I
+can use TRAMP and git easier.  However this may be useful for many
+other people who use PuTTY.
 
+* Emacs Needs
 To use TRAMP, Emacs may need the almost the complete putty package, or
  - pscp?
  - psftp?
  - plink
  - Pageant
  - PuTTYgen
-
 These are included here and upxed.  I have also changed PuTTy to Putty
-tray and upxed it as well.  I have made [[http://code.google.com/p/putty-portable-extras/downloads/detail?name=PuttyPortableExtrasInstaller-0.62.exe&can=2&q=][an installer]].
+tray and upxed it as well.  I have made [[http://code.google.com/p/putty-portable-extras/downloads/detail?name=PuttyPortableExtrasInstaller-0.62-1.exe&can=2&q=][an installer]].
+* How this works
+This renames the original putty executable and gives a fake putty
+executable that chooses to run Putty, pageant or both.
+
+This executable by default loads keys in the following directories:
+
+- =Data/keys=: This allows PuTTYPortable to carry around all its keys
+  like a portable app /should/..
+- =USB:/Documents/keys=: While outside of the portable app, you may
+  wish to keep your keys in your =Documents= directory
+* Additional Programs
+- PageantPortable.exe :: Starts Pageant after loading the Portable
+     Settings. The Default keys will be loaded as well.  However, you
+     can specify additional keys by =PageantPortable.exe newkey=.
+     Note that if it is already in the list of keys, it will only load
+     once.
+- PageantPuTTYPortable.exe :: Starts Pageant like above.  After
+     Pageant has started, PuTTY then starts.  If pageant is already
+     running, just start PuTTY.
+- puttygen.exe :: Putty gen generation and import/export.  Its
+                  portable, so it isn't run through the default
+                  registry relocation process.
+- App/putty/putty.exe :: Fake putty that runs Pageant, Putty or both.
+     The real putty is renamed to =App/putty/putty-real.exe=
+- App/putty/plink.exe :: Putty's answer to =ssh=.  If Pageant is
+     running, it uses all the registry settings from
+     EmacsPortable.App.
+- App/putty/pscp.exe :: Putty's secure copy.  I  have included
+     =scp.bat= to call =pscp.exe= for those who would rather use the
+     "default" command.
+- /App/putty/sftp.exe :: Putty's secure ftp.  I have included
+     =sftp.bat= to call =psftp.exe= for those who would rather use the
+     "default" command.
+* Wish list
+I would have liked to do the following, but what I currently have
+works for me:
+
+- Allow customizable directories for keys
+- Have a GUI that allows you to add/remove the key directories. 
+
+

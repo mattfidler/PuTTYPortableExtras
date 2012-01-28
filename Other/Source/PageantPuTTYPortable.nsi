@@ -2,8 +2,8 @@ SetCompress Auto
 SetCompressor /SOLID lzma
 SetCompressorDictSize 32
 SetDatablockOptimize On
-Icon "..\..\App\AppInfo\pageant.ico"
-OutFile "..\..\PageantPortable.exe"
+Icon "..\..\App\AppInfo\appicon.ico"
+OutFile "..\..\PageantPuTTYPortable.exe"
 
 Var cmdLineParams
 !include "FileFunc.nsh"
@@ -16,5 +16,5 @@ RequestExecutionLevel user
 
 Section
   ${GetParameters} $cmdLineParams
-  Exec '"$EXEDIR\PuTTYPortable.exe" /A $cmdLineParams'
+  Exec '"$EXEDIR\PuTTYPortable.exe" /B $cmdLineParams'
 SectionEnd
