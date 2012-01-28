@@ -1,0 +1,12 @@
+#+TITLE: PuTTYPortable Extensions Needed for Emacs
+#+AUTHOR: Matthew L. Fidler
+
+To use TRAMP, Emacs may need the almost the complete putty package, or
+ - pscp?
+ - psftp?
+ - plink
+ - Pageant
+ - PuTTYgen
+
+These are included here and upxed.  I have also changed PuTTy to Putty
+tray and upxed it as well.
