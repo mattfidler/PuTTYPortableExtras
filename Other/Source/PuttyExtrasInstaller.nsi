@@ -13,7 +13,7 @@ AutoCloseWindow true
 Var pa
 
 ; MUI2
-!define VER "0.62-1"
+!define VER "0.62-2"
 !define mirror $PLUGINSDIR\mirrors.ini
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
