@@ -13,7 +13,7 @@ To use TRAMP, Emacs may need the almost the complete putty package, or
  - Pageant
  - PuTTYgen
 These are included here and upxed.  I have also changed PuTTy to Putty
-tray and upxed it as well.  I have made [[http://code.google.com/p/putty-portable-extras/downloads/detail?name=PuttyPortableExtrasInstaller-0.62-1.exe&can=2&q=][an installer]].
+tray and upxed it as well.  I have made [[http://code.google.com/p/putty-portable-extras/downloads/detail?name=PuttyPortableExtrasInstaller-0.62-3.exe&can=2&q=][an installer]].
 * How this works
 This renames the original putty executable and gives a fake putty
 executable that chooses to run Putty, pageant or both.
