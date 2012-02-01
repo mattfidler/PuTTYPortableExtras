@@ -138,8 +138,10 @@ Function AddPutty
   end:
     ClearErrors
 FunctionEnd
-
+Var secondaryCall
 Section
+  System::Call 'kernel32::CreateMutexA(i 0, i 0, t "putty.exe") i .r1 ?e'
+  Pop $secondaryCall
   StrCmp "$pg" "1" pg
   StrCmp "$pg" "2" pg tty
   pg:
@@ -147,56 +149,66 @@ Section
     StrCmp $R0 "1" found_pageant 0
     IfFileExists "$EXEDIR\pageant.exe" +3 0
     MessageBox MB_OK "Could not find pageant!  Corrupt?"
-    Goto end
+    Goto exit
     ${Locate} "$EXEDIR\..\..\Data\keys\" "/L=F /M=*.ppk /S= /G=0" "addkey"
     ${Locate} "$USB\Documents\keys\" "/L=F /M=*.ppk /S= /G=0" "addkey"
     StrCmp $pg "2" 0 +2
     Call AddPutty
     Exec "$EXEDIR\pageant.exe $cmdLineParams"
-  wait_for_pageant:
+    Sleep 1000
     FindProcDLL::FindProc "pageant.exe"
-    StrCmp $R0 "1" end 0
-    Sleep 1
-    Goto wait_for_pageant
+    StrCmp $R0 "1" 0 -2
+    Goto end
   found_pageant:
     StrCmp "$pg" "2" tty
     MessageBox MB_OK "Pageant is already running, please close it first."
-    Goto end
+    Goto exit
   tty:
     IfFileExists "$EXEDIR\putty-tray.exe" 0 putty_real
     Exec "$EXEDIR\putty-tray.exe $cmdLineParams"
-  wait_for_putty_tray:
+    Sleep 1000
     FindProcDLL::FindProc "putty-tray.exe"
-    StrCmp $R0 "1" end 0
-    Sleep 1
-    Goto wait_for_putty_tray
+    StrCmp $R0 "1" 0 -2
+    Goto end
   putty_real:
     IfFileExists "$EXEDIR\putty-real.exe" 0 no_putty
     Exec "$EXEDIR\putty-real.exe $cmdLineParams"
-  wait_for_putty_real:
+    Sleep 1000
     FindProcDLL::FindProc "putty-real.exe"
-    StrCmp $R0 "1" end 0
-    Sleep 1
-    Goto wait_for_putty_real
+    StrCmp $R0 "1" 0 -2
+    Goto end
   no_putty:
     MessageBox MB_OK "Could not find putty executables.  Corrupt?"
+    Goto exit
   end:
     ClearErrors
-    
+    ## Only one process will hang around for PuTTY Portable Launcher
+    StrCmp $secondaryCall 0 0 exit
+    StrCpy $R1 "pageant.exe"
+  loop:    
     ## Make sure putty.exe is running when either pageant, putty-real
     ## and putty-tray are running.  I'm not sure how the laucher waits
     ## for putty to exit.  There could be some waiting for putty.exe
     ## to terminate before saving registry settings.
+    FindProcDLL::FindProc "$R1"
+    StrCmp $R0 "1" wait 0
+    StrCmp $R1 "pageant.exe" +4
     FindProcDLL::FindProc "pageant.exe"
+    StrCpy $R2 "pageant.exe"
     StrCmp $R0 "1" wait 0
+    StrCmp $R1 "putty-tray.exe" +4
     FindProcDLL::FindProc "putty-tray.exe"
+    StrCpy $R2 "putty-tray.exe"
     StrCmp $R0 "1" wait 0
+    StrCmp $R1 "putty-real.exe" +4
     FindProcDLL::FindProc "putty-real.exe"
+    StrCpy $R2 "putty-real.exe"
     StrCmp $R0 "1" wait 0
     Goto exit
   wait:
-    Sleep 1
-    Goto end
+    StrCpy $R1 $R2
+    Sleep 1000
+    Goto loop
   exit:
     ClearErrors
 SectionEnd
