@@ -13,7 +13,7 @@ AutoCloseWindow true
 Var pa
 
 ; MUI2
-!define VER "0.62-3"
+!define VER "0.62-4"
 !define mirror $PLUGINSDIR\mirrors.ini
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
@@ -36,6 +36,7 @@ OutFile "..\..\PuttyPortableExtrasInstaller-${VER}.exe"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "License.txt"
+!insertmacro MUI_PAGE_DIRECTORY 
 !insertmacro MUI_PAGE_COMPONENTS
 
 ;MUI_PAGE_STARTMENU pageid variable
@@ -48,6 +49,8 @@ OutFile "..\..\PuttyPortableExtrasInstaller-${VER}.exe"
 Section "Required Executable" sec_required_executable ; Checked
   ; Description:
   ; This Required executable allows Putty and Pageant to run with the same launcher by replacing putty.exe by a NSIS launcher.
+  IfFileExists "$INSTDIR\App\putty" +2
+  Abort
   SetOutPath "$INSTDIR\App\putty"
   IfFileExists "$INSTDIR\App\putty\putty-real.exe" +2
   Rename "$INSTDIR\App\putty\PUTTY.exe" "$INSTDIR\App\putty\putty-real.exe"
@@ -148,8 +151,8 @@ FunctionEnd
 Function .onInit
   SectionSetFlags ${sec_required_executable} 17
   ${GetDrives} "FDD+HDD" "GetDriveVars"
-  IfFileExists "$PA\PuTTYPortable" +3 0
-  MessageBox MB_OK "The installer could not find PuTTY Portable! Pleas install PuTTY Portable First."
-  Abort
+  IfFileExists "$PA\PuTTYPortable" +3
+  StrCpy $INSTDIR "$PA"
+  Goto +2
   StrCpy "$INSTDIR" "$PA\PuTTYPortable"
 FunctionEnd
